@@ -1,0 +1,26 @@
+# Keil MDK build output
+Objects/
+Listings/
+*.o
+*.crf
+*.d
+*.axf
+*.hex
+*.bin
+*.map
+*.lnp
+*.lst
+*.iex
+*.build_log.htm
+*.dep
+*.scvd
+*.bak
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE / misc
+*.log
+.vscode/
+.idea/
