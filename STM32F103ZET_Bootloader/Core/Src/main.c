@@ -94,6 +94,7 @@ int main(void)
   MX_TIM1_Init();
   MX_CAN_Init();
   MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
     /* ISO-TP + CAN 接收通路初始化：配置过滤器、启动 CAN、开接收中断。
        必须在调度器启动之前调用(此时 CAN 尚未进入中断模式)。
@@ -104,7 +105,7 @@ int main(void)
     {
       Error_Handler();
     }
-    /* USER CODE END 2 */
+  /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();

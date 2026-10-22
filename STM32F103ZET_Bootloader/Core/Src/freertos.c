@@ -32,6 +32,7 @@
 #include "isotp_user.h"
 #include "isotp_port.h"
 #include "Updater.h"
+#include "LinMaster.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,13 +51,14 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-  /* USER CODE BEGIN Variables */
+/* USER CODE BEGIN Variables */
   /* ISO-TP 报文的大数组和接收回调已经挪到 ASW 层：
      Software/ASW/Updater/src/Updater.c  */
 
   uint16_t UART_Transmit_Cycle = 0;
   uint8_t UART_ARRY[8] = {0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA};
-  /* USER CODE END Variables */
+  uint8_t LIN_Timer = 0;
+/* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId BSW_10ms_TaskHandle;
 
@@ -193,7 +195,7 @@ void Start_BSW_10ms_Task(void const * argument)
 
       /* LED0 反转：与发送同步，指示本任务存活 */
       HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-
+      LIN_Message_Send();
       printf("\r\nSTM32 HeartBeat\r\n");
 
       /* 走 ISO-TP 发送(而不是裸 HAL_CAN_AddTxMessage)，
@@ -202,10 +204,9 @@ void Start_BSW_10ms_Task(void const * argument)
     }
   }
   /* USER CODE END Start_BSW_10ms_Task */
-  }
+}
 
-  /* Private application code --------------------------------------------------*/
+/* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
-

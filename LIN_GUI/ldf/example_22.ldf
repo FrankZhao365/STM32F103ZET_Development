@@ -1,0 +1,103 @@
+/*
+ * 示例 LDF —— 结构化语法(LIN 2.2 规范写法)
+ * 参照 LIN 2.2A 规范里的示例改写,用来验证解析器对两种语法的兼容性。
+ */
+
+LIN_description_file;
+LIN_protocol_version = "2.2";
+LIN_language_version = "2.2";
+LIN_speed = 19.2 kbps;
+Channel_name = "DB";
+
+Nodes {
+	Master: CEM, 5 ms, 0.1 ms;
+	Slaves: LSM, RSM;
+}
+
+Signals {
+	InternalLightsRequest: 2, 0, CEM, LSM, RSM;
+	RightIntLightsSwitch: 8, 0, RSM, CEM;
+	LeftIntLightsSwitch: 8, 0, LSM, CEM;
+	LSMerror: 1, 0, LSM, CEM;
+	RSMerror: 1, 0, RSM, CEM;
+	IntTest: 2, 0, LSM, CEM;
+}
+
+Frames {
+	CEM_Frm1: 0x01, CEM, 1 {
+		InternalLightsRequest, 0;
+	}
+	LSM_Frm1: 0x02, LSM, 1 {
+		LeftIntLightsSwitch, 0;
+	}
+	LSM_Frm2: 0x03, LSM, 1 {
+		LSMerror, 0;
+		IntTest, 1;
+	}
+	RSM_Frm1: 0x04, RSM, 1 {
+		RightIntLightsSwitch, 0;
+	}
+	RSM_Frm2: 0x05, RSM, 1 {
+		RSMerror, 0;
+	}
+}
+
+Event_triggered_frames {
+	Node_Status_Event : Collision_resolver, 0x06, RSM_Frm1, LSM_Frm1;
+}
+
+Node_attributes {
+	RSM {
+		LIN_protocol = "2.0";
+		configured_NAD = 0x20;
+		product_id = 0x4E4E, 0x4553, 1;
+		response_error = RSMerror;
+		P2_min = 150 ms;
+		ST_min = 50 ms;
+	}
+	LSM {
+		LIN_protocol = "2.2";
+		configured_NAD = 0x21;
+		initial_NAD = 0x01;
+		response_error = LSMerror;
+		P2_min = 150 ms;
+		ST_min = 50 ms;
+	}
+}
+
+Schedule_tables {
+	Normal_Schedule {
+		CEM_Frm1 delay 15 ms;
+		LSM_Frm2 delay 15 ms;
+		RSM_Frm2 delay 15 ms;
+	}
+	Collision_resolver {
+		CEM_Frm1 delay 15 ms;
+		LSM_Frm2 delay 15 ms;
+		RSM_Frm2 delay 15 ms;
+		RSM_Frm1 delay 10 ms;
+	}
+}
+
+Signal_encoding_types {
+	Dig2Bit {
+		logical_value, 0, "off";
+		logical_value, 1, "on";
+		logical_value, 2, "error";
+		logical_value, 3, "void";
+	}
+	ErrorEncoding {
+		logical_value, 0, "OK";
+		logical_value, 1, "error";
+	}
+	LightEncoding {
+		logical_value, 0, "Off";
+		physical_value, 1, 254, 1, 100, "lux";
+	}
+}
+
+Signal_representation {
+	Dig2Bit: InternalLightsRequest;
+	ErrorEncoding: RSMerror, LSMerror;
+	LightEncoding: RightIntLightsSwitch, LeftIntLightsSwitch;
+}

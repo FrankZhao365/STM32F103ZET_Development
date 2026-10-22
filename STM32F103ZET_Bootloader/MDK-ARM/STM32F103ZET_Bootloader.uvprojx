@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Software/BSW/CANTP/inc;../Software/BSW/UART/inc;..\Software\ASW\Updater\inc;..\Software\ASW\STMFLASH\inc</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Software/BSW/CANTP/inc;../Software/BSW/UART/inc;../Software/ASW/Updater/inc;../Software/ASW/STMFLASH/inc;..\Software\BSW\LIN\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -734,6 +734,16 @@
               <FileName>stmflash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Software\ASW\STMFLASH\src\stmflash.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>BSW/LIN</GroupName>
+          <Files>
+            <File>
+              <FileName>LinMaster.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Software\BSW\LIN\src\LinMaster.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,0 +1,50 @@
+/*
+ * 示例 LDF —— 分节语法(LIN 2.1 / ISO 17987 常见写法)
+ * 一个最小的"主节点 + 一个电机从节点"示例。
+ */
+
+[LIN_Description]
+LIN_File_Version=2.1
+LIN_Protocol_Version=2.1
+LIN_Port_Enabled=1
+LIN_Node_Configuration_File=
+Master_Node=Master
+S Baudrate=19200
+
+[Node_Attribute]
+Master: LIN_Protocol=2.1, P2_min=100 ms, ST_min=0 ms;
+Motor_1: LIN_Protocol=2.1, configured_NAD=0x01, supplier_id=0x0003;
+
+[Signal]
+MotorSpeed: 8, 0, Master, Motor_1;
+MotorTemp: 8, 0, Motor_1, Master;
+ErrorFlag: 1, 0, Master, Motor_1;
+
+[Frame]
+MotorControl: 0x11, Master, 2;
+MotorStatus: 0x12, Motor_1, 2;
+
+[Frame_Definition]
+MotorControl: 2, Master, Motor_1, 2 {
+  MotorSpeed, 0;
+  ErrorFlag, 8;
+}
+MotorStatus: 2, Motor_1, Master, 1 {
+  MotorTemp, 0;
+}
+
+[Schedule_Table]
+MainTable: MotorControl delay 10 ms; MotorStatus delay 10 ms;
+
+[Signal_Encoding]
+ErrorEnc {
+  logical_value, 0, "无故障";
+  logical_value, 1, "故障";
+}
+SpeedEnc {
+  physical_value, 0, 250, 0.4, 0, "rpm";
+}
+
+[Signal_Representation]
+ErrorEnc: ErrorFlag;
+SpeedEnc: MotorSpeed;

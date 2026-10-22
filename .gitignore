@@ -19,8 +19,13 @@ Listings/
 # Python
 __pycache__/
 *.pyc
+.pytest_cache/
+
+# Build reports
+*.htm
 
 # IDE / misc
 *.log
+*.uvguix.*
 .vscode/
 .idea/
